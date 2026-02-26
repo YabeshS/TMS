@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace Repository.Models;
 
-public partial class Role
+public partial class MRole
 {
-    public int RoleId { get; set; }
+    public int Roleid { get; set; }
 
     public string RoleName { get; set; }
+
+    public bool? IsActive { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
@@ -19,9 +21,9 @@ public partial class Role
 
     public int? Updatedby { get; set; }
 
-    public virtual User CreatedbyNavigation { get; set; }
+    public virtual MUser CreatedbyNavigation { get; set; }
 
-    public virtual User UpdatedbyNavigation { get; set; }
+    public virtual ICollection<MUser> MUsers { get; set; } = new List<MUser>();
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual MUser UpdatedbyNavigation { get; set; }
 }

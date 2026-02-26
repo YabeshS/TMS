@@ -13,107 +13,97 @@ public partial class TMSContext : DbContext
     {
     }
 
-    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<MRole> MRoles { get; set; }
 
-    public virtual DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<MTask> MTasks { get; set; }
+
+    public virtual DbSet<MUser> MUsers { get; set; }
 
     public virtual DbSet<TaskPriority> TaskPriorities { get; set; }
 
     public virtual DbSet<TaskStatus> TaskStatuses { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Role>(entity =>
+        modelBuilder.Entity<MRole>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A79481B58");
+            entity.HasKey(e => e.Roleid).HasName("PK__m_Role__006A9709F599CCE2");
 
-            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B616025566ACC").IsUnique();
+            entity.ToTable("m_Role");
 
+            entity.HasIndex(e => e.RoleName, "UQ__m_Role__8A2B6160B26B346B").IsUnique();
+
+            entity.Property(e => e.Roleid).HasColumnName("ROLEId");
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.RoleName)
                 .IsRequired()
                 .HasMaxLength(50);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Updatedby).HasColumnName("updatedby");
 
-            entity.HasOne(d => d.CreatedbyNavigation).WithMany(p => p.RoleCreatedbyNavigations)
+            entity.HasOne(d => d.CreatedbyNavigation).WithMany(p => p.MRoleCreatedbyNavigations)
                 .HasForeignKey(d => d.Createdby)
-                .HasConstraintName("FK_roles_CreatedBy");
+                .HasConstraintName("FK_role_CreatedBy");
 
-            entity.HasOne(d => d.UpdatedbyNavigation).WithMany(p => p.RoleUpdatedbyNavigations)
+            entity.HasOne(d => d.UpdatedbyNavigation).WithMany(p => p.MRoleUpdatedbyNavigations)
                 .HasForeignKey(d => d.Updatedby)
-                .HasConstraintName("FK_roles_UpdatedBy");
+                .HasConstraintName("FK_role_updatedby");
         });
 
-        modelBuilder.Entity<Task>(entity =>
+        modelBuilder.Entity<MTask>(entity =>
         {
-            entity.HasKey(e => e.TaskId).HasName("PK__Tasks__7C6949B1361F71CA");
+            entity.HasKey(e => e.Taskid).HasName("PK__m_Task__27AB85563E66E530");
 
+            entity.ToTable("m_Task");
+
+            entity.Property(e => e.Taskid).HasColumnName("TASKId");
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.DueDate).HasColumnType("datetime");
-            entity.Property(e => e.TaskName)
+            entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(200);
+            entity.Property(e => e.UPdatedbY).HasColumnName("uPDATEDbY");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.TaskAssignedToNavigations)
+            entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.MTaskAssignedToNavigations)
                 .HasForeignKey(d => d.AssignedTo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tasks_AssignedTo");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.TaskCreatedByNavigations)
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.MTaskCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tasks_CreatedBy");
 
-            entity.HasOne(d => d.Priority).WithMany(p => p.Tasks)
+            entity.HasOne(d => d.Priority).WithMany(p => p.MTasks)
                 .HasForeignKey(d => d.PriorityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tasks_Priority");
 
-            entity.HasOne(d => d.TaskStatus).WithMany(p => p.Tasks)
-                .HasForeignKey(d => d.TaskStatusId)
+            entity.HasOne(d => d.Status).WithMany(p => p.MTasks)
+                .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Tasks_TaskStatus");
+                .HasConstraintName("FK_Tasks_Status");
 
-            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.TaskUpdatedByNavigations)
-                .HasForeignKey(d => d.UpdatedBy)
-                .HasConstraintName("FK_Tasks_UpdatedBy");
+            entity.HasOne(d => d.UPdatedbYNavigation).WithMany(p => p.MTaskUPdatedbYNavigations)
+                .HasForeignKey(d => d.UPdatedbY)
+                .HasConstraintName("FK_Tasks_updatedby");
         });
 
-        modelBuilder.Entity<TaskPriority>(entity =>
+        modelBuilder.Entity<MUser>(entity =>
         {
-            entity.HasKey(e => e.TaskPriorityId).HasName("PK__TaskPrio__BBFB9D8B8E41FE43");
+            entity.HasKey(e => e.Userid).HasName("PK__m_User__7B9E7F557E18263E");
 
-            entity.ToTable("TaskPriority");
+            entity.ToTable("m_User");
 
-            entity.Property(e => e.PriorityName)
-                .IsRequired()
-                .HasMaxLength(50);
-        });
+            entity.HasIndex(e => e.Email, "UQ__m_User__A9D10534D622A485").IsUnique();
 
-        modelBuilder.Entity<TaskStatus>(entity =>
-        {
-            entity.HasKey(e => e.TaskStatusId).HasName("PK__TaskStat__C023DD6C326C10F1");
-
-            entity.ToTable("TaskStatus");
-
-            entity.Property(e => e.StatusName)
-                .IsRequired()
-                .HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C1A57F5DF");
-
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053414DBAA46").IsUnique();
-
+            entity.Property(e => e.Userid).HasColumnName("USERId");
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -128,19 +118,44 @@ public partial class TMSContext : DbContext
                 .IsRequired()
                 .HasMaxLength(500);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Updatedby).HasColumnName("updatedby");
 
             entity.HasOne(d => d.CreatedbyNavigation).WithMany(p => p.InverseCreatedbyNavigation)
                 .HasForeignKey(d => d.Createdby)
-                .HasConstraintName("FK_users_CreatedBy");
+                .HasConstraintName("FK_user_CreatedBy");
 
-            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+            entity.HasOne(d => d.Role).WithMany(p => p.MUsers)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Roles");
 
             entity.HasOne(d => d.UpdatedbyNavigation).WithMany(p => p.InverseUpdatedbyNavigation)
                 .HasForeignKey(d => d.Updatedby)
-                .HasConstraintName("FK_users_UpdatedBy");
+                .HasConstraintName("FK_user_updatedby");
+        });
+
+        modelBuilder.Entity<TaskPriority>(entity =>
+        {
+            entity.HasKey(e => e.Taskpriorityid).HasName("PK__TaskPrio__D4B86C9F8BDC811E");
+
+            entity.ToTable("TaskPriority");
+
+            entity.Property(e => e.Taskpriorityid).HasColumnName("TASKPRIORITYId");
+            entity.Property(e => e.PriorityName)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<TaskStatus>(entity =>
+        {
+            entity.HasKey(e => e.Taskstatusid).HasName("PK__TaskStat__E48B20E0B666B9C3");
+
+            entity.ToTable("TaskStatus");
+
+            entity.Property(e => e.Taskstatusid).HasColumnName("TASKSTATUSId");
+            entity.Property(e => e.StatusName)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

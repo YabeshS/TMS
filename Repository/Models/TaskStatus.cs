@@ -7,9 +7,9 @@ namespace Repository.Models;
 
 public partial class TaskStatus
 {
-    public int TaskStatusId { get; set; }
+    public int Taskstatusid { get; set; }
 
     public string StatusName { get; set; }
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual ICollection<MTask> MTasks { get; set; } = new List<MTask>();
 }
