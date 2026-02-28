@@ -31,11 +31,7 @@ public partial class MTask
 
     public virtual MUser AssignedToNavigation { get; set; }
 
-    public virtual MUser CreatedByNavigation { get; set; }
-
     public virtual TaskPriority Priority { get; set; }
 
     public virtual TaskStatus Status { get; set; }
-
-    public virtual MUser UPdatedbYNavigation { get; set; }
 }

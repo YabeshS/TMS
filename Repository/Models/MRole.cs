@@ -21,9 +21,5 @@ public partial class MRole
 
     public int? Updatedby { get; set; }
 
-    public virtual MUser CreatedbyNavigation { get; set; }
-
     public virtual ICollection<MUser> MUsers { get; set; } = new List<MUser>();
-
-    public virtual MUser UpdatedbyNavigation { get; set; }
 }

@@ -27,23 +27,7 @@ public partial class MUser
 
     public int? Updatedby { get; set; }
 
-    public virtual MUser CreatedbyNavigation { get; set; }
-
-    public virtual ICollection<MUser> InverseCreatedbyNavigation { get; set; } = new List<MUser>();
-
-    public virtual ICollection<MUser> InverseUpdatedbyNavigation { get; set; } = new List<MUser>();
-
-    public virtual ICollection<MRole> MRoleCreatedbyNavigations { get; set; } = new List<MRole>();
-
-    public virtual ICollection<MRole> MRoleUpdatedbyNavigations { get; set; } = new List<MRole>();
-
-    public virtual ICollection<MTask> MTaskAssignedToNavigations { get; set; } = new List<MTask>();
-
-    public virtual ICollection<MTask> MTaskCreatedByNavigations { get; set; } = new List<MTask>();
-
-    public virtual ICollection<MTask> MTaskUPdatedbYNavigations { get; set; } = new List<MTask>();
+    public virtual ICollection<MTask> MTasks { get; set; } = new List<MTask>();
 
     public virtual MRole Role { get; set; }
-
-    public virtual MUser UpdatedbyNavigation { get; set; }
 }

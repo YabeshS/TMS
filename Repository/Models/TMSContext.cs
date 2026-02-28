@@ -43,14 +43,6 @@ public partial class TMSContext : DbContext
                 .HasMaxLength(50);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.Updatedby).HasColumnName("updatedby");
-
-            entity.HasOne(d => d.CreatedbyNavigation).WithMany(p => p.MRoleCreatedbyNavigations)
-                .HasForeignKey(d => d.Createdby)
-                .HasConstraintName("FK_role_CreatedBy");
-
-            entity.HasOne(d => d.UpdatedbyNavigation).WithMany(p => p.MRoleUpdatedbyNavigations)
-                .HasForeignKey(d => d.Updatedby)
-                .HasConstraintName("FK_role_updatedby");
         });
 
         modelBuilder.Entity<MTask>(entity =>
@@ -70,15 +62,10 @@ public partial class TMSContext : DbContext
             entity.Property(e => e.UPdatedbY).HasColumnName("uPDATEDbY");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.MTaskAssignedToNavigations)
+            entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.MTasks)
                 .HasForeignKey(d => d.AssignedTo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tasks_AssignedTo");
-
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.MTaskCreatedByNavigations)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Tasks_CreatedBy");
 
             entity.HasOne(d => d.Priority).WithMany(p => p.MTasks)
                 .HasForeignKey(d => d.PriorityId)
@@ -89,10 +76,6 @@ public partial class TMSContext : DbContext
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tasks_Status");
-
-            entity.HasOne(d => d.UPdatedbYNavigation).WithMany(p => p.MTaskUPdatedbYNavigations)
-                .HasForeignKey(d => d.UPdatedbY)
-                .HasConstraintName("FK_Tasks_updatedby");
         });
 
         modelBuilder.Entity<MUser>(entity =>
@@ -120,18 +103,10 @@ public partial class TMSContext : DbContext
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             entity.Property(e => e.Updatedby).HasColumnName("updatedby");
 
-            entity.HasOne(d => d.CreatedbyNavigation).WithMany(p => p.InverseCreatedbyNavigation)
-                .HasForeignKey(d => d.Createdby)
-                .HasConstraintName("FK_user_CreatedBy");
-
             entity.HasOne(d => d.Role).WithMany(p => p.MUsers)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Roles");
-
-            entity.HasOne(d => d.UpdatedbyNavigation).WithMany(p => p.InverseUpdatedbyNavigation)
-                .HasForeignKey(d => d.Updatedby)
-                .HasConstraintName("FK_user_updatedby");
         });
 
         modelBuilder.Entity<TaskPriority>(entity =>
