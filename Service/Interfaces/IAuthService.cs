@@ -9,6 +9,7 @@ namespace Service
     public interface IAuthService
     {
         Task<string> LoginAsync(LoginDto logindto);
+        Task<string> RegisterAsync(RegisterDto regosterdto);
 
     }
 }
