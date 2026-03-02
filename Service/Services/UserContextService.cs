@@ -20,5 +20,11 @@ namespace Service.Services
             ?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return userId != null ? int.Parse(userId) : 0;
         }
+        public string GetCurrentUserRole()
+        {
+            return _httpContextAccessor.HttpContext?.User
+                ?.FindFirst(ClaimTypes.Role)?.Value;
+        }
+
     }
 }

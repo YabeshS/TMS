@@ -49,6 +49,7 @@ namespace Service.Services
                         {
             new Claim(ClaimTypes.NameIdentifier, user.Userid.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
+            //new Claim("RoleId", user.RoleId.ToString()),
             new Claim(ClaimTypes.Role, user.Role.RoleName)
         };
 

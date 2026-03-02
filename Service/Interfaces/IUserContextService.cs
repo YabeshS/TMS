@@ -9,5 +9,6 @@ namespace Service
     public interface IUserContextService
     {
         int GetUserId();
+        string GetCurrentUserRole();
     }
 }
