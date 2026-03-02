@@ -1,4 +1,5 @@
 ﻿using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 namespace TMS.Controllers
@@ -22,6 +23,13 @@ namespace TMS.Controllers
         public async Task<IActionResult> Register(RegisterDto registerdto)
         {
             var result = await _authservice.RegisterAsync(registerdto);
+            return Ok(result);
+        }
+        [HttpGet("GetallUsers")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUsers() 
+        {
+            var result = await _authservice.GetAllUserAsync();
             return Ok(result);
         }
     }

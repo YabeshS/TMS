@@ -16,13 +16,14 @@ namespace TMS.Controllers
             _taskservice = taskservice;
         }
         [HttpPost("Create Task")]
-        [Authorize("admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateTask(CreateTaskDto ceatetaskdto)
         {
             var result = await _taskservice.CreateTaskAsync(ceatetaskdto);
             return Ok(result);
         }
         [HttpGet("Get All Tasks")]
+        [Authorize(Roles ="Manager,Admin")]
         public async Task<IActionResult> GetallTask()
         {
             var result = await _taskservice.GetallTasks();

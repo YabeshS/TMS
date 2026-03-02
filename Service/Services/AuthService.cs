@@ -94,6 +94,29 @@ namespace Service.Services
             catch (Exception ex) 
             { throw new Exception(ex.Message); }
         }
+        public async Task<List<GetAllUsersDto>> GetAllUserAsync()
+        {
+            try
+            {
+                var users = await _user.GetAllAsync();
+                //var userslist = users.ToList();
+                //var usersinfo = new GetAllUsersDto
+                //{
+                //    Userid=users.u
+                //};
+                var response =  users.Select(u => new GetAllUsersDto
+                { Userid=u.Userid,
+                FullName=u.FullName,
+                Email=u.Email,
+                RoleId=u.RoleId,
+                IsActive=u.IsActive,
+                Createdby=u.Createdby,
+                CreatedDate=u.CreatedDate,
+                Updatedby=u.Updatedby,
+                UpdatedDate=u.UpdatedDate
+                }).ToList();
+                return response;
+            } catch (Exception ex) { throw new Exception(ex.Message); } }
     }
 
 }

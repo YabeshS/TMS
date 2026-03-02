@@ -18,7 +18,7 @@ namespace DTO
 
         public int AssignedTo { get; set; }
 
-        public DateTime? DueDate { get; set; } = DateTime.Now.AddHours(1);
+        public DateTime? DueDate { get; set; } 
 
     }
 }

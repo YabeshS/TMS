@@ -13,4 +13,25 @@ namespace DTO
         public string Password { get; set; }
         public int RoleId { get; set; }
     }
+    public class GetAllUsersDto
+    {
+        public int Userid { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Email { get; set; }
+
+        public int RoleId { get; set; }
+
+        public bool? IsActive { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public int? Createdby { get; set; }
+
+        public int? Updatedby { get; set; }
+
+    }
 }

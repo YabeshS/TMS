@@ -35,7 +35,7 @@ namespace Service.Services
                     StatusId = createtaskdto.StatusId,
                     PriorityId = createtaskdto.PriorityId,
                     AssignedTo = createtaskdto.AssignedTo,
-                    DueDate = createtaskdto.DueDate,
+                    DueDate = createtaskdto.DueDate == null ? DateTime.Now.AddHours(1) : createtaskdto.DueDate,
                     CreatedBy = userid,
                     CreatedDate = DateTime.Now
                 };
