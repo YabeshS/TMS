@@ -78,7 +78,11 @@ namespace Service.Services
             {
                 if (await _user.AnyAsync(x => x.Email == registerDto.EmailId))
                     throw new Exception("Email already exists");
+                var exist = await _user.AnyAsync(x => x.FullName == registerDto.Name && x.RoleId == registerDto.RoleId);
+                if (exist) throw new Exception("User already exists");
+
                 var hashedpassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
+
                 var user = new MUser
                 {
                     FullName = registerDto.Name,

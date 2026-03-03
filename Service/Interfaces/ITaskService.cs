@@ -12,5 +12,6 @@ namespace Service.Interfaces
     {
         Task<string> CreateTaskAsync(CreateTaskDto createtaskdto);
         Task<List<MTask>> GetallTasks();
+        Task<string> UpdateTaskAsync(UpdateTaskDto updatetaskdto);
     }
 }

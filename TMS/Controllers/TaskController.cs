@@ -29,5 +29,12 @@ namespace TMS.Controllers
             var result = await _taskservice.GetallTasks();
             return Ok(result);
         }
+        [HttpPut("UpdateTask")]
+        [Authorize(Roles ="Admin,Manager,Employee")]
+        public async Task<IActionResult> UpdateTask(UpdateTaskDto updatetaskdto)
+        {
+            var result = await _taskservice.UpdateTaskAsync(updatetaskdto);
+            return Ok(result);
+        }
     }
 }
